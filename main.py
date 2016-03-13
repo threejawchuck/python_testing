@@ -96,10 +96,10 @@ def tuple_example ():
 
 def dictionary_example ():
 	print 'dictionary_example'
-	
+
 	#define using the dict function
 	dic = dict (Jan=01,Feb=2,Dec=12)
-	print dic		
+	print dic
 
 	#define using curly braces
 	dic = {"Jan":01,
@@ -108,7 +108,7 @@ def dictionary_example ():
 
 	# loop up using keyword
 	print "January is month",dic["Jan"]
-	
+
 	#edit
 	dic["Jan"]=-1
 	print "January is month",dic["Jan"]
@@ -128,7 +128,7 @@ def control_loops ():
 		print "yes"
 	elif 4 == b:
 		print "funk"
-	else: 
+	else:
 		print "no"
 
 	# inline if then else
@@ -152,7 +152,7 @@ def control_loops ():
 	for i in range (1,26,5): # count by fives
 		print i
 
-	# while loopage 
+	# while loopage
 	count=5
 	while count>0:
 		print count
@@ -208,7 +208,7 @@ def sum (x):
 
 	s = 0
 	for i in x:
-		s += i	
+		s += i
 
 	return s
 
@@ -231,7 +231,6 @@ def scope_example ():
 	anon () # calling the function
 	print x # back to six because that used local function scope
 
-
 def main():
    print ("hello world")
 
@@ -240,20 +239,19 @@ def module_example ():
 	print random.randrange(6,7)
 
 	import random as r
-	print r.randrange(7,8)	
+	print r.randrange(7,8)
 
 	from random import randrange
 	print randrange(8,9)
 
 	from random import randrange, randint
-	print randint(8,9)	
+	print randint(8,9)
 
 	# add a dir to your path so you can import
 	import sys
 	path = '/path/doesn/exit'
 	if path not in sys.path:
-		sys.path.append(path)
-
+		sys.path.insert(0, path)
 
 def file_example ():
 	print "file_example"
@@ -266,11 +264,20 @@ def file_example ():
 	f.write ('\nlast line\n')
 	f.close()
 
+    # Or with open "context"
+	with open(file, 'w') as f:
+	    f.write ('first line: d00d')
+	    f.write ('\t same line brah')
+	    f.write ('\n')
+	    f.write ('second line')
+	    f.write ('\nlast line\n')
+
+
 	f = open (file, 'r') # read only
 	# first line. note that this line has a \n on the end of it
 	firstline = f.readline()
 	# strip that last character off
-	firstline2 =  firstline[0:-1] 
+	firstline2 =  firstline[0:-1]
 	print firstline2
 
 	print f.readline() # second line which doesn't have a \n on the end of it
@@ -301,7 +308,7 @@ def file_example ():
 	new_name = "funk.txt"
 	os.rename (outputfile,new_name)
 
-	# clean up the files 
+	# clean up the files
 	import os
 	os.remove (new_name)
 	os.remove (file)
@@ -415,6 +422,71 @@ def generator ():
 	# let's try this again with feeling
 	for l in read_this_line_by_line(filename):
 		print l,
+
+def logging ():
+    # USE LOGGING!!!!  It's so good it's now a built in to the language!!
+    # Instead of using print to communicate with the user, use logging.  All
+    # you have to do is import logging in all your modules, and use it instead
+    # of print, that's it!!
+    import os
+    import time
+    import logging
+
+    # Log some messages
+    logging.warn('warn message')
+    logging.debug('debug message')
+    logging.info('info message')
+    logging.fatal('fatal message')
+
+    # Then in the entry point of your program, usually in the 'if __name__ ==
+    # "__main__"' block, you define your sinks for logging messages (screen,
+    # file, etc) Here is my boilerplate to log to file and to screen.  There
+    # are a million and one options on logging sinks, so see the python
+    # documentation for more info.
+
+    # Make log directory if it does not exist
+    if not os.path.isdir('log'):
+        os.makedirs('log')
+
+    # File Sink
+    logfile = time.strftime("RepoSync-%Y%m%d-%H%M%S.log")
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        datefmt='%Y%m%d %H:%M:%S',
+        filename=os.path.join('log', logfile),
+        filemode='w')
+
+    # Screen Sink
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
+    console.setFormatter(formatter)
+    logging.getLogger('').addHandler(console)
+
+
+# This block makes the file both a library and an executable.  The following
+# code is only executed if the file is executed.
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run example functions")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument("-v", "--verbose", action="store_true")
+    group.add_argument("-q", "--quiet", action="store_true")
+    parser.add_argument("EXAMPLE", type=str, help="the example to execute")
+    args = parser.parse_args()
+
+    if args.quiet:
+        print("Quiet mode set")
+    elif args.verbose:
+        print("Verbose mode set")
+    else:
+        print("Quiet/Verbose mode not set")
+    if args.EXAMPLE in globals():
+       globals()[args.EXAMPLE]()
+    else:
+        raise NotImplementedError("Example %s not implemented" % args.EXAMPLE)
 
 
 #main()

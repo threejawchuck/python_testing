@@ -1,3 +1,3 @@
 #!/bin/bash
 #run the unit tests
-python test_*.py
+nosetests --with-xunit --xunit-file testresults.xml
