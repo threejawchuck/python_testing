@@ -1,11 +1,11 @@
-import Widget 
+import WidgetB 
 
 import unittest
 
 # this is a class that has a bunch of tests 
-class TestWidget (unittest.TestCase):
+class TestWidgetB (unittest.TestCase):
 	def setUp (self):
-		self.w = Widget.Widget()
+		self.w = WidgetB.WidgetB()
 		pass
 
 	def tearDown (self):

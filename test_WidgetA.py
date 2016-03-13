@@ -1,11 +1,11 @@
-import Widget 
+import WidgetA 
 
 import unittest
 
 # this is a class that has a bunch of tests 
-class TestWidget (unittest.TestCase):
+class TestWidgetA (unittest.TestCase):
 	def setUp (self):
-		self.w = Widget.Widget()
+		self.w = WidgetA.WidgetA()
 		pass
 
 	def tearDown (self):
@@ -48,7 +48,7 @@ class TestWidget (unittest.TestCase):
 
 
 # take every test in this class and use it to define a suite
-suite = unittest.TestLoader().loadTestsFromTestCase(TestWidget)
+suite = unittest.TestLoader().loadTestsFromTestCase(TestWidgetA)
 
 # now register this test suite with the test runner
 unittest.TextTestRunner(verbosity=2).run(suite)

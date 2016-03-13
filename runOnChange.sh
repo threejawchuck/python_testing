@@ -14,7 +14,7 @@ touch ON
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Script to run on detected changes
-RUNSCRIPT=${DIR}/run.sh
+RUNSCRIPT=${DIR}/run_unit_tests.sh
 
 #Either monitor all specified files, or automatically grab every possible source file if no parameter is given
 if [ "$1" == "" ]; then
