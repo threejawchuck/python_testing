@@ -1,4 +1,4 @@
-class WidgetA (object):
+class WidgetB (object):
 
 	def __init__ (self):
 		self.next_account_id = 0;

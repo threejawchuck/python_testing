@@ -27,6 +27,32 @@ def str_example ():
 	message = 'my name is %s and i am %d years old' % (name, a)
 	print message
 
+	# replace
+	print "Hello World".replace("World","Krunk")
+
+	print "inserts a new line"
+	print "does not",
+	print " insert a new line",
+	print "okay there it is"
+
+	# big old string.  these will all be left justified
+	bos = """the first
+the second
+the third
+"""
+	print bos
+
+	# strings are never number
+	x = "42"
+	y = "36"
+
+	print x+y # print 4236
+	# eval first
+	print int (x) + int (y)
+	print eval (x) + eval (y) # this is 78
+
+
+
 def list_example ():
 	userAge = [21, 22, 23, 24, 25]
 	print 'list is',len(userAge), 'units long'
@@ -139,7 +165,20 @@ def control_loops ():
 		if 4==i:
 			break # break at four
 		print i
+
+
+	# the pass operator
+	a = 2
+	if a == 2:
+		pass # this is a no op
+	else:
+		print "inside the else"
 	print "done"
+
+	# using the in operator in an if statment
+	s = "long ass string"
+	if "ass" in s:
+		print "yep, it's an ass"
 
 def try_example ():
 	print "try_example"
@@ -162,16 +201,259 @@ def try_example ():
 	except Exception as e:
 		print "generic error:",e
 
+def sum (x):
+	s = 0
+	for i in range (len(x)):
+		s += x[i];
+
+	s = 0
+	for i in x:
+		s += i	
+
+	return s
+
+def function_example ():
+	x = [1,2,3,4,5,6,7,8]
+	print sum (x) # should be 4*7+8 = 1+7*5 = 36
+
+def scope_example ():
+	print 'scope_example'
+	x = 5;
+	print x # clearly 5
+	if True:
+		x = 6
+		print x # clearly 6
+	print x # supplies! it's six!
+
+	def anon():
+		x = 7
+		print x # clearly 7
+	anon () # calling the function
+	print x # back to six because that used local function scope
 
 
 def main():
    print ("hello world")
 
+def module_example ():
+	import random
+	print random.randrange(6,7)
 
-main()
+	import random as r
+	print r.randrange(7,8)	
+
+	from random import randrange
+	print randrange(8,9)
+
+	from random import randrange, randint
+	print randint(8,9)	
+
+	# add a dir to your path so you can import
+	import sys
+	path = '/path/doesn/exit'
+	if path not in sys.path:
+		sys.path.append(path)
+
+
+def file_example ():
+	print "file_example"
+	file = 'tempfile.txt'
+	f = open (file,'w') #write only and wipe the file first
+	f.write ('first line: d00d')
+	f.write ('\t same line brah')
+	f.write ('\n')
+	f.write ('second line')
+	f.write ('\nlast line\n')
+	f.close()
+
+	f = open (file, 'r') # read only
+	# first line. note that this line has a \n on the end of it
+	firstline = f.readline()
+	# strip that last character off
+	firstline2 =  firstline[0:-1] 
+	print firstline2
+
+	print f.readline() # second line which doesn't have a \n on the end of it
+	f.close() # close it up
+
+	# can also do super fast in this two liner
+	for l in open (file):
+		print l,
+
+	# or use the readlines
+	lines = open(file).readlines()
+	for line in lines:
+		print line,
+
+	# open the file and copy it line by line
+	f = open (file, 'r') # read only
+	outputfile = "outputfile.txt"
+	o = open (outputfile, "w")
+	msg = f.read(5) # read five bytes
+	while len(msg):
+		o.write (msg)
+		msg = f.read(5)
+	o.close()
+	f.close()
+
+	#rename a file
+	import os
+	new_name = "funk.txt"
+	os.rename (outputfile,new_name)
+
+	# clean up the files 
+	import os
+	os.remove (new_name)
+	os.remove (file)
+
+def eval_example ():
+	print "eval_example"
+	expression =  "1 + 2 + 7"
+	print expression
+	print eval (expression)
+
+def dictionary_deep_dive ():
+	print "dictionary_deep_dive"
+	dict1 = {}
+	print dict1
+	dict1 ["Jan"] = "January"
+	dict1.clear() # clear it out
+	print dict1
+
+	# fill it back up
+	dict1 ["Jan"] = "January"
+	dict1 ["Feb"] = "February"
+	dict1 ["Mar"] = "March"
+	dict1 ["Dummy"] = "shouldn't see this"
+	del dict1 ["Dummy"]
+	print dict1
+
+	print dict1["Jan"]
+	print dict1.get("Jan")
+	try:
+		print dict1["this key Doesnt exist"]
+	except Exception as e:
+		print "That don't work man.  I can't seem to find this key: ",e
+
+	# looking for a key
+	if "Doesn't exist" in dict1:
+		out = dict1["doesn't exist"]
+	else:
+		out = "nope"
+	print out
+
+	# or we can do the same thing using get
+	out = dict1.get("doesn't exist", "nope")
+	print out
+
+	# use the in keywork
+	if "Jan" in dict1:
+		print "yeah, it's here"
+
+	# each keyword value pair as a tuple
+	print dict1.items()
+
+	# all of the keys
+	for k in dict1.keys():
+		print k
+	for index, key in enumerate (dict1.keys()):
+		print index, key
+
+	# try the update
+	dict2 = {}
+	for index, key in enumerate (dict2.keys()):
+		print "you shoulnd't see this",index, key
+	dict2.update(dict1)
+	for index, key in enumerate (dict2.keys()):
+		print "you should see this:",index, key
+
+	dict3 = {}
+	dict3["Jan"] = "this will be overwritten aften an update"
+	for index, key in enumerate (dict3.keys()):
+		print index, "the key [", key, "] refers to [",dict3[key],"]"
+	dict3.update(dict1)
+
+	for index, key in enumerate (dict3.keys()):
+		print index, "the key [", key, "] refers to [",dict3[key],"]"
+
+	for index, value in enumerate (dict3.values()):
+		print index, value
+
+def create_dummy_file (filename, n):
+	f = open (filename,"w")
+	for i in range (n):
+		line = "Line " + str(i) + "\n"
+		f.write (line)
+	f.close()
+
+def read_this_line_by_line (filename):
+	print "this only happens once"
+	for line in open (filename):
+		yield (line) # the yield makes this a generator
+	print "all done"
+
+def generator ():
+	print "generator"
+	filename = "dummy file"
+	size = 5
+	create_dummy_file (filename, size)
+
+	# define the variable
+	a_line_from_this_file = read_this_line_by_line(filename)
+	print "nothing has happened yet!"
+
+	# now call next.  should see just one line
+	print a_line_from_this_file.next(),
+
+	# call to next and one more line
+	for l in range (size):
+		try:
+			print a_line_from_this_file.next(),
+		except:
+			print "can't call next when the file is empty!"
+
+	# let's try this again with feeling
+	for l in read_this_line_by_line(filename):
+		print l,
+
+
+#main()
 #str_example()
 #list_example()
 #tuple_example()
 #dictionary_example ()
 #control_loops ()
-try_example ()
+#try_example ()
+#function_example ()
+#scope_example()
+#module_example ()
+#file_example()
+#eval_example()
+#dictionary_deep_dive ()
+#generator()
+
+
+
+
+# import sys
+# print sys.path[0]
+
+# import os
+# dirlist = os.listdir (sys.path[0])
+#for p in dirlist:
+#	print p
+
+
+# import refresh_file_list
+
+
+# pwd = sys.path[0]
+# paths = [pwd]
+# paths.append ("/etc/") # fully qualified
+# paths.append ("../") #relative
+
+# wildcards = ["*.py"]
+# new_file_generator = refresh_file_list.file_list_generator (paths, wildcards)
+
+# refresh_file_list.camp_on_file_change (new_file_generator)
+
