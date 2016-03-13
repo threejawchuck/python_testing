@@ -1,8 +1,8 @@
-import WidgetB 
+import WidgetB
 
 import unittest
 
-# this is a class that has a bunch of tests 
+# this is a class that has a bunch of tests
 class TestWidgetB (unittest.TestCase):
 	def setUp (self):
 		self.w = WidgetB.WidgetB()
@@ -48,7 +48,7 @@ class TestWidgetB (unittest.TestCase):
 
 
 # take every test in this class and use it to define a suite
-suite = unittest.TestLoader().loadTestsFromTestCase(TestWidget)
+suite = unittest.TestLoader().loadTestsFromTestCase(TestWidgetB)
 
 # now register this test suite with the test runner
 unittest.TextTestRunner(verbosity=2).run(suite)
