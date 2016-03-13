@@ -3,3 +3,4 @@ ON
 *.pyc
 /log
 testresults.xml
+.ropeproject
