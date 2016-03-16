@@ -465,45 +465,64 @@ def logging ():
     logging.getLogger('').addHandler(console)
 
 
+def argparse_example():
+	print "testing argparse_example"
+	import argparse
+
+	# set up the arg parser
+	parser = argparse.ArgumentParser(description="Run example functions")
+
+	# don't know what this does
+	group = parser.add_mutually_exclusive_group()
+	
+	# register the verbosity flag and store results as a bool
+	group.add_argument("-v", "--verbose", action="store_true")
+
+	# register the quiet flag and store results as a bool
+	group.add_argument("-q", "--quiet", action="store_true")
+
+	# this is a required file and you are going to store the string in 
+	# the variable EXAMPLE.  if you don't get this string, it is going to 
+	# raise an error
+	#parser.add_argument("EXAMPLE", type=str, help="the example to execute")
+
+	# now go parse the command line
+	# note that by leaving it blank, the argumentparser 
+	# will automatically determine the command-line arguments from sys-argv
+	args = parser.parse_args()
+
+	# now we are actually going to do something with the args
+	if args.quiet:
+	    print("Quiet mode set")
+	elif args.verbose:
+	    print("Verbose mode set")
+	else:
+	    print("Quiet/Verbose mode not set")
+	
+	# if example isn't already in globals(), put it there or else toss a raise
+	# if args.EXAMPLE in globals():
+	#    globals()[args.EXAMPLE]()
+	# else:
+    #	raise NotImplementedError("Example %s not implemented" % args.EXAMPLE)
+
 # This block makes the file both a library and an executable.  The following
 # code is only executed if the file is executed.
 if __name__ == "__main__":
-    import argparse
 
-    parser = argparse.ArgumentParser(description="Run example functions")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("-v", "--verbose", action="store_true")
-    group.add_argument("-q", "--quiet", action="store_true")
-    parser.add_argument("EXAMPLE", type=str, help="the example to execute")
-    args = parser.parse_args()
-
-    if args.quiet:
-        print("Quiet mode set")
-    elif args.verbose:
-        print("Verbose mode set")
-    else:
-        print("Quiet/Verbose mode not set")
-    if args.EXAMPLE in globals():
-       globals()[args.EXAMPLE]()
-    else:
-        raise NotImplementedError("Example %s not implemented" % args.EXAMPLE)
-
-
-#main()
-#str_example()
-#list_example()
-#tuple_example()
-#dictionary_example ()
-#control_loops ()
-#try_example ()
-#function_example ()
-#scope_example()
-#module_example ()
-#file_example()
-#eval_example()
-#dictionary_deep_dive ()
-#generator()
-
+	#str_example()
+	#list_example()
+	#tuple_example()
+	#dictionary_example ()
+	#control_loops ()
+	#try_example ()
+	#function_example ()
+	#scope_example()
+	#module_example ()
+	#file_example()
+	#eval_example()
+	#dictionary_deep_dive ()
+	#generator()
+	argparse_example ()
 
 
 
